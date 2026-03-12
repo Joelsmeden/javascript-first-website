@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boka kurs | WestCoast Education</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script type="module" src="booking.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bokning</h1>
+      <p>
+        Du håller på att boka: <strong id="displayCourseName">Laddar...</strong>
+      </p>
+
+      <form id="bookingForm" class="booking-form" method="post">
+        <div class="form-group">
+          <label for="customerName">Kundnamn</label>
+          <input
+            type="text"
+            id="customerName"
+            name="customerName"
+            placeholder="För- och efternamn"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Faktureringsadress</label>
+          <textarea
+            id="address"
+            name="address"
+            placeholder="Gatuadress, Postnummer och Ort"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-postadress</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="namn@exempel.se"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Mobilnummer</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="07X-XXX XX XX"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-primary">Skicka bokning</button>
+
+        <div class="form-footer">
+          <a href="../index.html">Avbryt och gå tillbaka</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
