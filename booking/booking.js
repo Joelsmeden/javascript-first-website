@@ -1,5 +1,3 @@
-import { courses } from '../courses.js';
-
 const urlParams = new URLSearchParams(window.location.search);
 const courseId = urlParams.get('id');
 const displayCourseName = document.getElementById('displayCourseName');

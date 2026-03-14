@@ -1,3 +1,8 @@
+if (localStorage.getItem('isLoggedIn') !== 'true') {
+  alert('Åtkomst nekad! Du måste logga in först.');
+  window.location.href = 'login.html';
+}
+
 const courseGrid = document.getElementById('course-grid');
 const bookingSection = document.getElementById('bookingSection');
 

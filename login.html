@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Logga in | Admin</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container" style="max-width: 400px; margin-top: 100px">
+      <h2>Personalinloggning</h2>
+      <form id="loginForm" class="booking-form">
+        <div class="form-group">
+          <label>Lösenord</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="admin123"
+          />
+        </div>
+        <button type="submit" class="btn-primary">Logga in</button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const password = document.getElementById('password').value;
+
+        if (password === 'admin123') {
+          localStorage.setItem('isLoggedIn', 'true');
+          window.location.href = './admin/admin.html';
+        } else {
+          alert('Fel lösenord!');
+        }
+      });
+    </script>
+  </body>
+</html>

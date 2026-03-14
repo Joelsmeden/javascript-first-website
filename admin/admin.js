@@ -1,4 +1,65 @@
+if (localStorage.getItem('isLoggedIn') !== 'true') {
+  window.location.href = 'login.html';
+}
+
 const addCourseForm = document.getElementById('addCourseForm');
+const bookingsList = document.getElementById('bookingsList');
+
+const fetchAndDisplayBookings = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/bookings');
+    const bookings = await response.json();
+
+    if (bookings.length === 0) {
+      bookingsList.innerHTML = '<p>Inga bokningar finns ännu.</p>';
+      return;
+    }
+
+    const table = document.createElement('table');
+    table.className = 'admin-table';
+    table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Kund</th>
+                    <th>Kurs</th>
+                    <th>Kurs-ID</th>
+                    <th>Datum</th>
+                </tr>
+            </thead>
+            <tbody id="bookingTableBody"></tbody>
+        `;
+
+    bookingsList.innerHTML = '';
+    bookingsList.appendChild(table);
+
+    const tbody = document.getElementById('bookingTableBody');
+
+    bookings.forEach((booking) => {
+      const row = document.createElement('tr');
+
+      const nameCell = document.createElement('td');
+      nameCell.textContent = booking.customerName;
+
+      const courseCell = document.createElement('td');
+      courseCell.textContent = booking.courseTitle;
+
+      const idCell = document.createElement('td');
+      idCell.textContent = booking.courseId;
+
+      const dateCell = document.createElement('td');
+      dateCell.textContent = booking.date || 'Saknas';
+
+      row.appendChild(nameCell);
+      row.appendChild(courseCell);
+      row.appendChild(idCell);
+      row.appendChild(dateCell);
+
+      tbody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Kunde inte ladda bokningar:', error);
+  }
+};
 
 addCourseForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -9,9 +70,9 @@ addCourseForm.addEventListener('submit', async (e) => {
     id: formData.get('id'),
     title: formData.get('title'),
     length: formData.get('length'),
+    price: formData.get('price'),
     startDate: formData.get('startDate'),
     description: formData.get('description'),
-    price: formData.get('price'),
     type: 'Klassrum',
     image:
       'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800',
@@ -20,9 +81,7 @@ addCourseForm.addEventListener('submit', async (e) => {
   try {
     const response = await fetch('http://localhost:3000/courses', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newCourse),
     });
 
@@ -31,54 +90,8 @@ addCourseForm.addEventListener('submit', async (e) => {
       addCourseForm.reset();
     }
   } catch (error) {
-    console.error('Kunde inte spara kursen:', error);
-    alert('Ett fel uppstod när kursen skulle sparas.');
+    alert('Kunde inte spara kursen.');
   }
 });
-
-const fetchAndDisplayBookings = async () => {
-  const bookingsList = document.getElementById('bookingsList');
-
-  try {
-    const response = await fetch('http://localhost:3000/bookings');
-    const bookings = await response.json();
-
-    if (bookings.length === 0) {
-      bookingsList.innerHTML = '<p>Inga bokningar finns ännu.</p>';
-      return;
-    }
-
-    let html = `
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Kund</th>
-                        <th>Kurs</th>
-                        <th>Kurs-ID</th>
-                        <th>Datum</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-
-    bookings.forEach((booking) => {
-      html += `
-                <tr>
-                    <td>${booking.customerName}</td>
-                    <td>${booking.courseTitle}</td>
-                    <td>${booking.courseId}</td>
-                    <td>${booking.date}</td>
-                </tr>
-            `;
-    });
-
-    html += '</tbody></table>';
-    bookingsList.innerHTML = html;
-  } catch (error) {
-    console.error('Kunde inte ladda bokningar:', error);
-    bookingsList.innerHTML =
-      '<p>Ett fel uppstod vid laddning av bokningar.</p>';
-  }
-};
 
 fetchAndDisplayBookings();
