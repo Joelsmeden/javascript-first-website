@@ -9,6 +9,29 @@ const bookingSection = document.getElementById('bookingSection');
 const urlParams = new URLSearchParams(window.location.search);
 const courseId = urlParams.get('id');
 
+const createTextElement = (tag, text, className) => {
+  const el = document.createElement(tag);
+  el.textContent = text;
+  if (className) el.className = className;
+  return el;
+};
+
+const createCourseImage = (src, alt) => {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt;
+  return img;
+};
+
+const createInfoSpan = (label, value) => {
+  const span = document.createElement('span');
+  const strong = document.createElement('strong');
+  strong.textContent = `${label}: `;
+  span.appendChild(strong);
+  span.appendChild(document.createTextNode(value));
+  return span;
+};
+
 const fetchCourses = async () => {
   try {
     const response = await fetch('http://localhost:3000/courses');
@@ -28,31 +51,43 @@ const fetchCourses = async () => {
 
 const displayCourses = (courseList) => {
   if (!courseGrid) return;
+  courseGrid.innerHTML = '';
 
-  const courseCardsHTML = courseList
-    .map((course) => {
-      return `
-        <article class="course-card">
-          <div class="course-badge">${course.type}</div>
-          <img src="${course.image}" alt="${course.title}" />
-          <div class="course-content">
-            <span class="course-id">Ref: ${course.id}</span>
-            <h3>${course.title}</h3>
-            <p>${course.description}</p>
-            <div class="course-info">
-              <span><strong>Längd:</strong> ${course.length}</span>
-              <span><strong>Start:</strong> ${course.startDate}</span>
-            </div>
-            <a href="./booking/booking.html?id=${course.id}" class="btn-book">
-               Boka kurs
-            </a>
-          </div>
-        </article>
-      `;
-    })
-    .join('');
+  courseList.forEach((course) => {
+    const card = document.createElement('article');
+    card.className = 'course-card';
 
-  courseGrid.innerHTML = courseCardsHTML;
+    const badge = createTextElement('div', course.type, 'course-badge');
+    const image = createCourseImage(course.image, course.title);
+
+    const content = document.createElement('div');
+    content.className = 'course-content';
+
+    const ref = createTextElement('span', `Ref: ${course.id}`, 'course-id');
+    const title = createTextElement('h3', course.title);
+    const desc = createTextElement('p', course.description);
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'course-info';
+    infoDiv.appendChild(createInfoSpan('Längd', course.length));
+    infoDiv.appendChild(createInfoSpan('Start', course.startDate));
+
+    const btn = createTextElement('a', 'Boka kurs', 'btn-book');
+    btn.href = `./booking/booking.html?id=${course.id}`;
+
+    card.appendChild(badge);
+    card.appendChild(image);
+
+    content.appendChild(ref);
+    content.appendChild(title);
+    content.appendChild(desc);
+    content.appendChild(infoDiv);
+    content.appendChild(btn);
+
+    card.appendChild(content);
+
+    courseGrid.appendChild(card);
+  });
 };
 
 function showBookingPage(id, courseList) {

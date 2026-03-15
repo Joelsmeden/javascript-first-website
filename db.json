@@ -39,14 +39,6 @@
       "phone": "0761730884",
       "date": "2026-03-12",
       "id": 1
-    },
-    {
-      "courseId": "WCE-102",
-      "courseTitle": "Avancerad Java-utveckling",
-      "customerName": "johan eriksson",
-      "email": "johan@gmail.com",
-      "date": "2026-03-14",
-      "id": 2
     }
   ]
 }
