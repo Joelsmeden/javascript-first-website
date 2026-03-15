@@ -29,16 +29,5 @@
       "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800"
     }
   ],
-  "bookings": [
-    {
-      "courseId": "WCE-102",
-      "courseTitle": "Avancerad Java-utveckling",
-      "customerName": "Joel Axel Schmitterlöw",
-      "address": "Bragesväg 2a",
-      "email": "schmitterlowgang@gmail.com",
-      "phone": "0761730884",
-      "date": "2026-03-12",
-      "id": 1
-    }
-  ]
+  "bookings": []
 }
